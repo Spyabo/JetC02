@@ -4,3 +4,5 @@ A program that estimates the carbon emissions emitted globally by private jets e
 Sourced the carbon emission statistics from: https://github.com/ajrahul10/flight-carbon-emissions/blob/main/data.json
 
 IDTomodel.txt sourced from: https://opensky-network.org/aircraft-database
+
+AirportCodes.txt sourced from: https://airportcodes.aero/
