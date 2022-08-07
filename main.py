@@ -6,9 +6,9 @@ import csv
 from math import radians, cos, sin, asin, sqrt
 from src.jetList import *
 
-airportcodes = open("AirportCodes.txt", "r")
+airportcodes = open("src/AirportCodes.txt", "r")
 
-with open('idtomodel.txt', mode='r') as inp:
+with open('src/idtomodel.txt', mode='r') as inp:
     reader = csv.reader(inp)
     dict_from_csv = {rows[0]: rows[1] for rows in reader}
 
@@ -47,6 +47,8 @@ def longlat(icao, firstSeen):
     if firstSeen is not None:
         r = requests.get(
             f'https://opensky-network.org/api/tracks/all?icao24={icao}&time={firstSeen}')
+        print(f"{icao}, {firstSeen}, {type(firstSeen)}")
+        print(r.text)
         flightrecord = json.loads(r.text)
         departureLong = flightrecord['path'][0][1]
         departureLat = flightrecord['path'][0][2]
@@ -56,6 +58,8 @@ def longlat(icao, firstSeen):
         departure = f"{departureLong},{departureLat}"
         destination = f"{destinationlong},{destinationlat}"
         return haversine(departureLong, departureLat, destinationlong, destinationlat)
+    else:
+        print('Is not an integer')
 
 
 def main():
@@ -73,6 +77,9 @@ def main():
         r = requests.get(
             f'https://opensky-network.org/api/flights/arrival?airport={stripped_line}&begin={start_of_yesterday}&end={end_of_yesterday}')
         arrived.extend(r.json())
+        print(
+            f"Number of Flights from {stripped_line} airport: {len(r.json())}")
+    print(f"Total flights : {len(arrived)}")
 
     # Process each flight if firstSeen and lastSeen are not None
     for flight in arrived:
@@ -91,8 +98,14 @@ def main():
                 gallons = float(flighttime) * float(fuelburn)
                 CO2 = (gallons * 21.1) / 2000
                 CarbonEmissions += CO2
-    return round(CarbonEmissions, 2)
+                print(
+                    f"Model: {model}, Time (Hours): {round(flighttime, 2)}, Fuel Burn Gallons(Hour): {round(fuelburn, 2)}, CO2 (Tons): {round(CO2, 2)}")
+    return print(round(CarbonEmissions, 2))
 
+
+start_time = time.time()
 
 if __name__ == '__main__':
     main()
+
+print("--- %s seconds ---" % (time.time() - start_time))
