@@ -1,5 +1,5 @@
 # JetC02
-A script that estimates the carbon emissions emitted globally by private jets daily
+A script that estimates the carbon emissions emitted globally by private jets daily @ github.com/Spyabo/jetc02-actions
 
 src/jetList.py sourced from: https://github.com/ajrahul10/flight-carbon-emissions/blob/main/data.json
 
