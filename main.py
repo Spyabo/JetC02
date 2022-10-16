@@ -24,10 +24,13 @@ def idtomodel(icao):
 
 def fuel(model):
     for each in data:
-        if model in each['Name']:
-            return each["Fuel Burn (Hour)"]
-        else:
-            pass
+        try:
+            if model in each['Name']:
+                return each["Fuel Burn (Hour)"]
+            else:
+                pass
+        except:
+            NoneType
 
 
 def haversine(lon1, lat1, lon2, lat2):
@@ -99,9 +102,11 @@ def main():
                 gallons = float(flighttime) * float(fuelburn)
                 CO2 = (gallons * 21.1) / 2000
                 CarbonEmissions += CO2
+                for x, vars in enumerate(stats):
+                    stats[x] = round(vars, 2)
                 print(
-                    f"Model: {model}, Time (Hours): {round(flighttime, 2)}, Fuel Burn Gallons(Hour): {round(fuelburn, 2)}, CO2 (Tons): {round(CO2, 2)}")
-    return print(round(CarbonEmissions, 2))
+                    f"Model: {model}, Time (Hours): {stats[0]:,}, Fuel Burn Gallons(Hour): {stats[1]:,}, CO2 (Tons): {stats[2]:,}")
+    return print(f"{stats[3]:,} Tons == {(stats[3] * 907.185):,} KG")
 
 
 start_time = time.time()
