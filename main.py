@@ -102,6 +102,7 @@ def main():
                 gallons = float(flighttime) * float(fuelburn)
                 CO2 = (gallons * 21.1) / 2000
                 CarbonEmissions += CO2
+                stats = [flighttime, fuelburn, CO2, CarbonEmissions]
                 for x, vars in enumerate(stats):
                     stats[x] = round(vars, 2)
                 print(
